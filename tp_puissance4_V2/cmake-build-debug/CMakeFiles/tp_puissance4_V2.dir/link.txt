@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/tp_puissance4_V2.dir/main.c.o -o tp_puissance4_V2 

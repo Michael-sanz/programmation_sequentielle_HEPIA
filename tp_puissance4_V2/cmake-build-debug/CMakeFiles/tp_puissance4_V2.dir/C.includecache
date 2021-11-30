@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/mike/Documents/HEPIA/programmation_séquentielle/exercices/tp_puissance4_V2/main.c
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+time.h
+-
+
