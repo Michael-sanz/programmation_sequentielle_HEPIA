@@ -66,7 +66,7 @@ int checkwin(int N, int M, char plateau[N][M], int whoPlay, char cOrdi, char cPl
         testedChar = cOrdi;
 //    printf("\n%c\n", testedChar);
 
-    for (i = 1, j =1;  ( (i>=0) && (i< N) && (j>=0) && (j<M)) ; i++, j++) {
+    for (i = 1, j =1;  ( (i< N) && (j<M)) ; i++, j++) {
         if(plateau[numeroLigne+i][numeroCol+j] == testedChar){
             cptDgauche++;
             printf("\n CPT D GAUCHE = %d",cptDgauche);
@@ -96,12 +96,9 @@ int checkwin(int N, int M, char plateau[N][M], int whoPlay, char cOrdi, char cPl
             cptCol++;
             printf("\n CPT COL = %d",cptCol);
         }
-        else
-            break;
-    }
-    for (int k = 1; k < N ; ++k) {
-        if(plateau[numeroLigne+k][numeroCol] == testedChar){
+        if(plateau[numeroLigne+i][numeroCol] == testedChar){
             cptLigne++;
+            printf("\n CPT LIGNE = %d", cptLigne);
         }
         else
             break;
