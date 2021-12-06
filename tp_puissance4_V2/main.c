@@ -14,7 +14,7 @@ int getRandomInt(int M){
 
 int askPosCol(int M){
     int numCol;
-    printf("Veuillez entrez un numéro de colonne <= a %d (pouvant être 0)\n",M-1);
+    printf("Veuillez entrez un num de colonne <= a %d (pouvant etre 0)\n",M-1);
     scanf("%d",&numCol);
     return numCol;
 }
@@ -57,79 +57,68 @@ int remplirPlateau(int posCol,int N,int M,char plateau[N][M], char cOrdi, char c
 
 int checkwin(int N, int M, char plateau[N][M], int whoPlay, char cOrdi, char cPlayer, int numeroLigne, int numeroCol){
     int res = -1;
+    int cptLigne = 1, cptCol = 1 , cptDdroite = 1, cptDgauche =1, i, j;
+    char testedChar;
 //    printf("\n NUM LIGNE : %d , NUM COL : %d \n", numeroLigne, numeroCol);
-    switch (whoPlay) {
-        case 1:
-            for (int i = 1; i < 4 ; ++i){
-                if(plateau[numeroLigne+i][numeroCol] == cPlayer || plateau[numeroLigne][numeroCol - i] == cPlayer || plateau[numeroLigne][numeroCol + i] == cPlayer ){
-                    whoPlay = 1;
-                }
-                else
-                    return res;
+    if(whoPlay==1)
+        testedChar = cPlayer;
+    else
+        testedChar = cOrdi;
+//    printf("\n%c\n", testedChar);
+
+    for (i = 1, j =1;  ( (i>=0) && (i< N) && (j>=0) && (j<M)) ; i++, j++) {
+        if(plateau[numeroLigne+i][numeroCol+j] == testedChar){
+            cptDgauche++;
+            printf("\n CPT D GAUCHE = %d",cptDgauche);
+        }
+        if(plateau[numeroLigne-i][numeroCol-j] == testedChar)
+            {
+                cptDgauche++;
+                printf("\n CPT D GAUCHE = %d",cptDgauche);
             }
-            return whoPlay;
-        case 0:
-            for (int i = 0; i < 4; ++i) {
-                if(plateau[numeroLigne+i][numeroCol] == cOrdi || plateau[numeroLigne][numeroCol - i] == cOrdi || plateau[numeroLigne][numeroCol + i] == cOrdi){
-                    whoPlay = 0;
-                }
-                else
-                    return res;
+        if(plateau[numeroLigne-i][numeroCol+j] == testedChar)
+            {
+                cptDdroite++;
+                printf("\n CPT D DROITE = %d",cptDdroite);
             }
-            return whoPlay;
+        if(plateau[numeroLigne+i][numeroCol-j] == testedChar)
+            {
+                cptDdroite++;
+                printf("\n CPT D DROITE = %d",cptDdroite);
+            }
+        if(plateau[numeroLigne][numeroCol+j] == testedChar)
+        {
+            cptCol++;
+            printf("\n CPT COL = %d",cptCol);
+        }
+        if(plateau[numeroLigne][numeroCol-j] == testedChar)
+        {
+            cptCol++;
+            printf("\n CPT COL = %d",cptCol);
+        }
+        else
+            break;
     }
-//    return res;
+    for (int k = 1; k < N ; ++k) {
+        if(plateau[numeroLigne+k][numeroCol] == testedChar){
+            cptLigne++;
+        }
+        else
+            break;
+    }
+    if(cptCol >=4 || cptDdroite>=4 || cptDgauche>=4 || cptLigne>=4)
+        return whoPlay;
+    else
+        return res;
 }
-
-
-//int checkwinV2(int N, int M, char plateau[N][M], int whoPlay, char cOrdi, char cPlayer, int numeroLigne, int numeroCol){
-//    int res = -1;
-//    int cpt = 1;
-//    int nbTrue = 1;
-//    if(whoPlay == 1){
-//        while(nbTrue < 4){
-//            if(plateau[numeroLigne + cpt][numeroCol] == cPlayer)
-//            {
-//                nbTrue++;
-//                cpt++;
-//            }
-//            if(plateau[numeroLigne- cpt][numeroCol] == cPlayer)
-//            {
-//                nbTrue++;
-//                cpt++;
-//            }
-//            else
-//                return res;
-//        }
-//        return whoPlay;
-//    }
-//    else{
-//        if(whoPlay == 0){
-//            while(nbTrue < 4){
-//                if(plateau[numeroLigne + cpt][numeroCol] == cOrdi){
-//                    nbTrue++;
-//                    cpt++;
-//                }
-//                else if(plateau[numeroLigne - cpt][numeroCol] == cOrdi){
-//                    nbTrue++;
-//                    cpt++;
-//                }
-//                else
-//                    return res;
-//            }
-//            return whoPlay;
-//        }
-//    }
-//}
 
 void reward(int whoPlay)
     {
-        switch (whoPlay) {
-            case 0:
-                printf("L ORDINATEUR A GAGNE !!!");
-            case 1:
-                printf("LE JOUEUR 1 A GAGNE !!!");
-        }
+//        printf("\n VARIABLE WHO PLAY AU MOMENT DU CHECK %d", whoPlay);
+        if(whoPlay == 1)
+            printf("LE JOUEUR 1 A GAGNE !!!");
+        else
+            printf("L ORDINATEUR A GAGNE !!!");
     }
 
 int plateauFull(int N,int M,char plateau[N][M], char cOrdi, char cPlayer1){
@@ -193,8 +182,12 @@ int main() {
 
             // check si un joueur à WIN
             winner = checkwin(N,M,plateau,whoPlay,cOrdi,cPlayer1,checkColOrGetLineNumber, positionColonne);
+            printf("\n winner %d\n",winner);
             if(winner >= 0)
+            {
+
                 reward(winner);
+            }
             else
                 // change le joueur
                 whoPlay = changePlayer(whoPlay);
