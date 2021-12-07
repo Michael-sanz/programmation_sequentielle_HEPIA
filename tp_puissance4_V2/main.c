@@ -55,58 +55,45 @@ int remplirPlateau(int posCol,int N,int M,char plateau[N][M], char cOrdi, char c
     return valeurNegative;
 }
 
-int checkwin(int N, int M, char plateau[N][M], int whoPlay, char cOrdi, char cPlayer, int numeroLigne, int numeroCol){
-    int res = -1;
-    int cptLigne = 1, cptCol = 1 , cptDdroite = 1, cptDgauche =1, i, j;
-    char testedChar;
-//    printf("\n NUM LIGNE : %d , NUM COL : %d \n", numeroLigne, numeroCol);
-    if(whoPlay==1)
-        testedChar = cPlayer;
-    else
-        testedChar = cOrdi;
-//    printf("\n%c\n", testedChar);
-
-    for (i = 1, j =1;  ( (i< N) && (j<M)) ; i++, j++) {
-        if(plateau[numeroLigne+i][numeroCol+j] == testedChar){
-            cptDgauche++;
-            printf("\n CPT D GAUCHE = %d",cptDgauche);
-        }
-        if(plateau[numeroLigne-i][numeroCol-j] == testedChar)
-            {
-                cptDgauche++;
-                printf("\n CPT D GAUCHE = %d",cptDgauche);
-            }
-        if(plateau[numeroLigne-i][numeroCol+j] == testedChar)
-            {
-                cptDdroite++;
-                printf("\n CPT D DROITE = %d",cptDdroite);
-            }
-        if(plateau[numeroLigne+i][numeroCol-j] == testedChar)
-            {
-                cptDdroite++;
-                printf("\n CPT D DROITE = %d",cptDdroite);
-            }
-        if(plateau[numeroLigne][numeroCol+j] == testedChar)
-        {
-            cptCol++;
-            printf("\n CPT COL = %d",cptCol);
-        }
-        if(plateau[numeroLigne][numeroCol-j] == testedChar)
-        {
-            cptCol++;
-            printf("\n CPT COL = %d",cptCol);
-        }
-        if(plateau[numeroLigne+i][numeroCol] == testedChar){
-            cptLigne++;
-            printf("\n CPT LIGNE = %d", cptLigne);
-        }
+int countLigneCOl(int N, int M, char plateau[N][M],char testedChar,int numeroLigne, int numeroCol,int incrLigne, int incrCol){
+    int count = 0;
+    for (int li = numeroLigne + incrLigne, col = numeroCol + incrCol; ((li >= 0) && (li < N) && (col >= 0) && (col < M)); li += incrLigne, col += incrCol){
+        if(plateau[li][col] == testedChar)
+            count++;
         else
-            break;
-    }
-    if(cptCol >=4 || cptDdroite>=4 || cptDgauche>=4 || cptLigne>=4)
+            return count;
+    }return count;
+}
+
+int checkWin(int N, int M, char plateau[N][M], int whoPlay, char cOrdi, char cPlayer, int numeroLigne, int numeroCol){
+    int res = -1;
+    int cptLigne = 1;
+    int cptCol = 1;
+    int cptDdroite = 1;
+    int cptDgauche = 1;
+    char testedChar;
+
+    if(whoPlay == 0)
+        testedChar = cOrdi;
+    else
+        testedChar = cPlayer;
+
+    cptLigne+= countLigneCOl(N,M,plateau,testedChar,numeroLigne,numeroCol,0,1);
+    cptLigne+= countLigneCOl(N,M,plateau,testedChar,numeroLigne,numeroCol,0,-1);
+
+    cptCol+= countLigneCOl(N,M,plateau,testedChar,numeroLigne,numeroCol,1,0);
+
+    cptDgauche += countLigneCOl(N,M,plateau,testedChar,numeroLigne,numeroCol,-1,-1);
+    cptDgauche += countLigneCOl(N,M,plateau,testedChar,numeroLigne,numeroCol,+1,+1);
+
+    cptDdroite +=  countLigneCOl(N,M,plateau,testedChar,numeroLigne,numeroCol,-1,+1);
+    cptDdroite +=  countLigneCOl(N,M,plateau,testedChar,numeroLigne,numeroCol,+1,-1);
+
+    if(cptLigne >=4 || cptCol>=4 || cptDdroite>=4 || cptDgauche>=4)
         return whoPlay;
     else
         return res;
+
 }
 
 void reward(int whoPlay)
@@ -178,7 +165,7 @@ int main() {
             afficherPlateau(N,M,plateau);
 
             // check si un joueur à WIN
-            winner = checkwin(N,M,plateau,whoPlay,cOrdi,cPlayer1,checkColOrGetLineNumber, positionColonne);
+            winner = checkWin(N,M,plateau,whoPlay,cOrdi,cPlayer1,checkColOrGetLineNumber,positionColonne);
             printf("\n winner %d\n",winner);
             if(winner >= 0)
             {
