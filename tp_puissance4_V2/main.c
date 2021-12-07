@@ -20,7 +20,6 @@ int askPosCol(int M){
 }
 
 void afficherPlateau(int N,int M, char plateau[N][M]){
-    printf("\n");
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < M; ++j) {
             printf("%c",plateau[i][j]);
@@ -159,6 +158,16 @@ char getCharToTest(int whoPlay,char cOrdi, char cPlayer){
         return cPlayer;
 }
 
+int getColumNumber(int whoPlay, int M){
+    int posCol;
+    if(whoPlay == 0){
+        posCol = getRandomInt(M);
+    }
+    else
+        posCol = askPosCol(M);
+    return posCol;
+}
+
 int main() {
     // CONSTANTES
     const int N = 6; // nombre de lignes du plateau de jeu
@@ -184,13 +193,8 @@ int main() {
 // début de la boucle de jeu
     do{
 
-        if(whoPlay == 0)
-        {
-            positionColonne = getRandomInt(M);
-        }
-        else
-            // si c'est le joueur qui joue on lui demande un nombre
-            positionColonne = askPosCol(M);
+        // Renvoies la position de la Colonne
+        positionColonne = getColumNumber(whoPlay,M);
 
         // check si on peux remplir le plateau ou pas et si oui le remplir et retourner le numéro de la ligne de la dernière pièce posé
         getLineNumber = lineNumber(positionColonne, N, M,plateau,cPlateau);
@@ -206,6 +210,7 @@ int main() {
             // remplie le tableau à la ligne et la colonne définie avec le bon caractère
             remplirPlateau(positionColonne, getLineNumber, N, M, plateau,testedChar);
             // affiche le plateau
+
             afficherPlateau(N,M,plateau);
             // check si un joueur à WIN
             winner = checkWin(N,M,plateau,testedChar,getLineNumber,positionColonne);
@@ -221,7 +226,7 @@ int main() {
                     whoPlay = changePlayer(whoPlay);
                 }
         }
-    }while(plateauFull(N,M,plateau,cOrdi,cPlayer1) == 0  || winner >0 );
+    }while(plateauFull(N,M,plateau,cOrdi,cPlayer1) == 0  && winner !=1 );
     // fin de la boucle de jeu
     return 0;
 }
