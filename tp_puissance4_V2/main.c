@@ -251,7 +251,7 @@ int main() {
     do{
 
 
-//        nvxNombreColWin = iaIntellegience(getLineNumber,positionColonne,N,M,plateau,tabOrdi,cOrdi,cPlateau);
+        nvxNombreColWin = iaIntellegience(getLineNumber,positionColonne,N,M,plateau,tabOrdi,cOrdi,cPlateau);
         nvxNombreColBlock = iaIntellegience(getLineNumber,positionColonne,N,M,plateau,tabPlayer,cPlayer1,cPlateau);
 
         if(whoPlay == 0){
