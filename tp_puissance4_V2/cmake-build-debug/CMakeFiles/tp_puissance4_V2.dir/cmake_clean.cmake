@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/tp_puissance4_V2.dir/main.c.o"
-  "tp_puissance4_V2"
+  "CMakeFiles/tp_puissance4_V2.dir/main.c.obj"
+  "libtp_puissance4_V2.dll.a"
+  "tp_puissance4_V2.exe"
+  "tp_puissance4_V2.exe.manifest"
   "tp_puissance4_V2.pdb"
 )
 

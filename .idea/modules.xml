@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/prog_seq.iml" filepath="$PROJECT_DIR$/.idea/prog_seq.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/tp_puissance4_V2.iml" filepath="$PROJECT_DIR$/.idea/tp_puissance4_V2.iml" />
     </modules>
   </component>
 </project>
