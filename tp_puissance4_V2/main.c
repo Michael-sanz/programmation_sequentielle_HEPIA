@@ -48,7 +48,7 @@ int lineNumber(int posCol, int N, int M, char plateau[N][M], char CPlateau){
 }
 
 void remplirPlateau(int posCol , int posLigne , int N, int M , char plateau[N][M], char testedChar){
-        plateau[posLigne][posCol] = testedChar;
+    plateau[posLigne][posCol] = testedChar;
 }
 
 int countSameChar(int N, int M, char plateau[N][M], char testedChar, int numeroLigne, int numeroCol, int incrLigne, int incrCol){
@@ -61,37 +61,10 @@ int countSameChar(int N, int M, char plateau[N][M], char testedChar, int numeroL
     }return count;
 }
 
-void iaBuissinessLogic(int N, int M, char plateau[N][M], char testedChar, int numeroLigne, int numeroCol,int tab[4]){
-    int cptLigne = 1;
-    int cptCol = 1;
-    int cptDdroite = 1;
-    int cptDgauche = 1;
-
-    cptLigne+= countSameChar(N, M, plateau, testedChar, numeroLigne, numeroCol, 0, 1);
-    cptLigne+= countSameChar(N, M, plateau, testedChar, numeroLigne, numeroCol, 0, -1);
-
-    cptCol+= countSameChar(N, M, plateau, testedChar, numeroLigne, numeroCol, 1, 0);
-
-    cptDgauche += countSameChar(N, M, plateau, testedChar, numeroLigne, numeroCol, -1, -1);
-    cptDgauche += countSameChar(N, M, plateau, testedChar, numeroLigne, numeroCol, +1, +1);
-
-    cptDdroite += countSameChar(N, M, plateau, testedChar, numeroLigne, numeroCol, -1, +1);
-    cptDdroite += countSameChar(N, M, plateau, testedChar, numeroLigne, numeroCol, +1, -1);
-
-    if(cptLigne>=3)
-        tab[0] = cptLigne;
-    if(cptCol>=3)
-        tab[1] = cptCol;
-    if(cptDdroite>=3)
-        tab[2] = cptDdroite;
-    if(cptDgauche>=3)
-        tab[3] = cptDgauche;
-}
-
 int checkPuissance4(int cptLig,int cptCol,int cptDdroite, int cptDgauche){
     int true = 1;
     int false = 0;
-    if(cptLig >=4 || cptCol>=4 || cptDdroite>=4 || cptDgauche>=4)
+    if(cptLig >=3 || cptCol>=3 || cptDdroite>=3 || cptDgauche>=3)
         return true;
     else
         return false;
@@ -99,10 +72,10 @@ int checkPuissance4(int cptLig,int cptCol,int cptDdroite, int cptDgauche){
 
 int checkWin(int N, int M, char plateau[N][M],char testedChar, int numeroLigne, int numeroCol){
     int res;
-    int cptLigne = 1;
-    int cptCol = 1;
-    int cptDdroite = 1;
-    int cptDgauche = 1;
+    int cptLigne = 0;
+    int cptCol = 0;
+    int cptDdroite = 0;
+    int cptDgauche = 0;
 
     cptLigne+= countSameChar(N, M, plateau, testedChar, numeroLigne, numeroCol, 0, 1);
     cptLigne+= countSameChar(N, M, plateau, testedChar, numeroLigne, numeroCol, 0, -1);
@@ -119,64 +92,28 @@ int checkWin(int N, int M, char plateau[N][M],char testedChar, int numeroLigne, 
     return res;
 }
 
-int iaIntellegience(int numLigne, int numeroCol, int N, int M, char plateau[N][M], int tab[4], char testedChar,char cPlateau){
-        for (int i = 0; i < 4; ++i) {
-            if(tab[i] >= 3){
-                for (int j = 1; j <3 ; ++j) {
-                    switch(i){
-                        // case ligne
-                        case 0:
-                            // check si il peux gagner en ligne (donc avec colonne -1 ou + 1)
-                            if(checkWin(N,M,plateau,testedChar,numLigne,(numeroCol -j)) >= 4){
-                                if(plateau[numLigne-1][numeroCol-j] == cPlateau)
-                                    return numeroCol -j;
-                            }
-                            else if(checkWin(N,M,plateau,testedChar,numLigne,(numeroCol+j)) > 0){
-                                if(plateau[numLigne-1][numeroCol+j] == cPlateau)
-                                    return numeroCol +j;
-                                else
-                                    break;
-                            }
-                            // case Col
-                        case 1:
-                            if(numLigne <= 6){
-                                return numeroCol;
-                            }
-                            // case diagonal droite
-                        case 2:
-                            if((checkWin(N,M,plateau,testedChar,numLigne+j,numeroCol-j) > 0)){
-                                if(plateau[(numLigne+j)-1][numeroCol+j] == cPlateau)
-                                    return numeroCol+j;
-                            }
-                            else if((checkWin(N,M,plateau,testedChar,numLigne-j,numeroCol+j) > 0)){
-                                if(plateau[(numLigne-j)-1][numeroCol-j] == cPlateau)
-                                    return numeroCol-j;
-                            }
-                            // case diagonal gauche
-                        case 3:
-                            if((checkWin(N,M,plateau,testedChar,numLigne+j,numeroCol+j) > 0)){
-                                if(plateau[(numLigne+j)-1][numeroCol+j] == cPlateau)
-                                    return numeroCol+j;
-                            }
-                            else if((checkWin(N,M,plateau,testedChar,numLigne-j,numeroCol-j) > 0)){
-                                if(plateau[(numLigne-j)-1][numeroCol-j] == cPlateau)
-                                    return numeroCol-j;
-                            }
-                    }
+int iaIntelligence(int N, int M, char plateau[N][M],char testedChar, int cPlateau){
+    int res = -1;
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j <M ; ++j) {
+            if(plateau[i][j] == cPlateau){
+                if(checkWin(N,M,plateau,testedChar,i,j) == 1){
+                    return j;
                 }
             }
-        } return getRandomInt(M);
+        }
+    }
+    return res;
 }
 
-
 void reward(int whoPlay)
-    {
+{
 //        printf("\n VARIABLE WHO PLAY AU MOMENT DU CHECK %d", whoPlay);
-        if(whoPlay == 1)
-            printf("LE JOUEUR 1 A GAGNE !!!");
-        else
-            printf("L ORDINATEUR A GAGNE !!!");
-    }
+    if(whoPlay == 1)
+        printf("LE JOUEUR 1 A GAGNE !!!");
+    else
+        printf("L ORDINATEUR A GAGNE !!!");
+}
 
 int plateauFull(int N,int M,char plateau[N][M], char cOrdi, char cPlayer1){
     int res = 0;
@@ -200,10 +137,6 @@ int changePlayer(int whoPlay){
     else
         whoPlay = 1;
     return whoPlay;
-}
-
-void initCountTab(int tab[4]){
-    for (int i = 0; i <= 4; ++i) tab[i] = 1;
 }
 
 char getCharToTest(int whoPlay,char cOrdi, char cPlayer){
@@ -236,45 +169,34 @@ int main() {
     int whoPlay; // Qui joue si la valeur est 1 = c'est le joueur 1 qui joue , si la valeur est 0 c'est l'ordinateur qui joue
     int getLineNumber; // Booléan permettant de savoir si on peux remplir le plateau à cette colonne la (grâce à la fonction lineNumber) et si on peux nous renvoie la ligne de la nouvelle pièce posée
     int winner;
-    int tabPlayer[4];
-    int tabOrdi[4];
     char testedChar;
-    int nvxNombreColWin = -1;
-    int nvxNombreColBlock = -1;
-
+    int checkOrdiWin;
+    int checkPlayerWin;
     // init plateau de jeu
     init_tab(N,M,plateau, cPlateau);
-    // Init des tabs de count
-    initCountTab(tabPlayer);
-    initCountTab(tabOrdi);
+
 // début de la boucle de jeu
     do{
+        // Choisi quel char on doit tester : Celui du joueur 1 ou de l'ordinateur
+        testedChar = getCharToTest(whoPlay,cOrdi,cPlayer1);
 
-
-        nvxNombreColWin = iaIntellegience(getLineNumber,positionColonne,N,M,plateau,tabOrdi,cOrdi,cPlateau);
-        nvxNombreColBlock = iaIntellegience(getLineNumber,positionColonne,N,M,plateau,tabPlayer,cPlayer1,cPlateau);
+        checkOrdiWin = iaIntelligence(N,M,plateau,cOrdi,cPlateau);
+        checkPlayerWin = iaIntelligence(N,M,plateau,cPlayer1,cPlateau);
 
         if(whoPlay == 0){
-            if(nvxNombreColWin >=0)
-            {
-                positionColonne = nvxNombreColWin;
-                nvxNombreColWin = -1;
+            if(checkOrdiWin >=0){
+                positionColonne = checkOrdiWin;
+                printf("\n LORDI PEUX GAGNER avec la position de la col : %d \n", checkOrdiWin);
             }
-            else if(nvxNombreColBlock >=0){
-                positionColonne = nvxNombreColBlock;
-                nvxNombreColBlock = -1;
+            else if (checkPlayerWin >=0){
+                positionColonne = checkPlayerWin;
+                printf("\n LORDI PEUX BLOQUER avec la position de la col : %d \n", checkPlayerWin);
             }
             else
-                // tire une position de colonne aléatoire
-                positionColonne = getRandomInt(M);
+            positionColonne = getRandomInt(M);
         }
         else
             positionColonne = askPosCol(M);
-
-        initCountTab(tabPlayer);
-        initCountTab(tabOrdi);
-
-
         // check si on peux remplir le plateau ou pas et si oui le remplir et retourner le numéro de la ligne de la dernière pièce posé
         getLineNumber = lineNumber(positionColonne, N, M,plateau,cPlateau);
 
@@ -282,8 +204,6 @@ int main() {
         if(getLineNumber < 0)
             printf("\n Impossible dans cette colonne \n");
         else{
-            // Choisi quel char on doit tester : Celui du joueur 1 ou de l'ordinateur
-            testedChar = getCharToTest(whoPlay,cOrdi,cPlayer1);
 
             // remplie le tableau à la ligne et la colonne définie avec le bon caractère
             remplirPlateau(positionColonne, getLineNumber, N, M, plateau,testedChar);
@@ -298,11 +218,9 @@ int main() {
             }
             else
                 // change le joueur
-                {
-                    iaBuissinessLogic(N, M, plateau, cPlayer1, getLineNumber, positionColonne, tabPlayer);
-                    iaBuissinessLogic(N, M, plateau, cOrdi, getLineNumber, positionColonne, tabOrdi);
-                    whoPlay = changePlayer(whoPlay);
-                }
+            {
+                whoPlay = changePlayer(whoPlay);
+            }
         }
     }while(plateauFull(N,M,plateau,cOrdi,cPlayer1) == 0  && winner !=1 );
     // fin de la boucle de jeu
