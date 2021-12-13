@@ -110,17 +110,10 @@ int iaIntelligence(int N, int M, char plateau[N][M],char testedChar, int cPlatea
                 // appelle de la fonction check win à la position i et j
                 if(checkWin(N,M,plateau,testedChar,i,j) == 1)
                 {
-                    // si la ligne est la dernière en renvoie directement le numéro de colonne
-                    if(i == (N-1))
-                        return j;
-                    // si la ligne n'est PAS la dernière on regarde si la ligne juste en dessous est remplie
-                    else if(plateau[i-1][j] !=cPlateau)
-                        // si elle est remplie on renvoie directement j
-                        return j;
-                    // si la ligne en dessous de notre position de victoire n'est pas remplie on fait rien car la pièce ne tombera pas au bonne endroit avec la force de gravité
+                    return j;
                 }
             }
-        }
+       }
     }
     return res;
 }
