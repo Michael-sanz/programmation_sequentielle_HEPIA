@@ -23,7 +23,7 @@ int askPosCol(int M) {
 void afficherPlateau(int N, int M, char plateau[N][M]) {
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < M; ++j) {
-            printf("%c", plateau[i][j]);
+            printf("%4c", plateau[i][j]);
         }
         putchar('\n');
     }
@@ -113,7 +113,10 @@ int iaIntelligence(int N, int M, char plateau[N][M], char testedChar, char cPlat
             if (plateau[i][j] == cPlateau) {
                 // appelle de la fonction check win à la position i et j
                 if (checkWin(N, M, plateau, testedChar, i, j) == 1) {
-                    return j;
+                    if(i == N-1)
+                        return j;
+                    if(plateau[i+1][j] != cPlateau)
+                        return j;
                 }
             }
         }
