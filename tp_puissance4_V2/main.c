@@ -2,7 +2,6 @@
 // Sanz Michael
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <time.h>
 
 int getRandomInt(int M) {
@@ -103,6 +102,7 @@ int checkWin(int N, int M, char plateau[N][M], char testedChar, int numeroLigne,
     res = checkPuissance4(cptLigne, cptCol, cptDdroite, cptDgauche);
     return res;
 }
+
 
 // Parcours de l'ensemble du plateau pour trouvé une position suceptible de faire gagner un des joueur
 int iaIntelligence(int N, int M, char plateau[N][M], char testedChar, char cPlateau) {
