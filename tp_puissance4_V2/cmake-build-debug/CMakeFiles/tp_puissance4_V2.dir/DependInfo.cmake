@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/mike/Documents/HEPIA/programmation_séquentielle/exercices/tp_puissance4_V2/main.c" "/home/mike/Documents/HEPIA/programmation_séquentielle/exercices/tp_puissance4_V2/cmake-build-debug/CMakeFiles/tp_puissance4_V2.dir/main.c.o"
+  "C:/Users/micha/CLionProjects/programmation_sequentielle_HEPIA/tp_puissance4_V2/main.c" "C:/Users/micha/CLionProjects/programmation_sequentielle_HEPIA/tp_puissance4_V2/cmake-build-debug/CMakeFiles/tp_puissance4_V2.dir/main.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
